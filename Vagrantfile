@@ -1,10 +1,15 @@
 # -*- mode: ruby -*-
 # vim: ai ts=4 sts=4 et sw=4 nu ft=ruby
 
-VM_BOX          = "bento/ubuntu-16.04-i386"
-VM_HOSTNAME     = "blank.vm"
+VM_HOSTNAME     = "centostest.vm"
+
+VM_BOX          = "bento/centos-7.4"
+VM_OS           = "centos"
+
+# --==* You shouldn't need to adjust these much *==--
+
 VM_NAME         = VM_HOSTNAME
-VM_IP           = "192.168.30.2"
+VM_IP           = "192.168.30.4"
 VM_MEMORY       = "1024"
 
 # --==* Touch nothing below this line *==--
@@ -21,6 +26,6 @@ Vagrant.configure("2") do |config|
         vb.memory = VM_MEMORY
     end
 
-    config.vm.provision :shell, path: "bin/ubuntu.sh"
+    config.vm.provision :shell, path: "bin/#{VM_OS}.sh"
 
 end
