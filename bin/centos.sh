@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
 
-yum update -y
-yum upgrade -y
+yum update -y --exclude=kernel
 yum install -y httpd
+chkconfig --add httpd
+chkconfig httpd on
 #debconf-set-selections <<< "mariadb-server mysql-server/root_password password vagrant"
 #debconf-set-selections <<< "mariadb-server mysql-server/root_password_again password vagrant"
 yum -y install mariadb-client
 yum -y install mariadb-server
 mysql -uroot -e "grant all privileges on *.* to vagrant@localhost identified by 'vagrant';"
 yum install -y php libapache2-mod-php php-mysql php-cli php-curl mcrypt php-mcrypt php-gd php-mbstring
-cat <<- EOT > /etc/apache2/sites-enabled/000-default.conf
+if [ ! -d "/etc/httpd/sites-enabled" ] ; then mkdir -p /etc/httpd/sites-enabled ; fi
+cat <<- EOT > /etc/httpd/sites-enabled/000-default.conf
 <VirtualHost *:80>
     ServerAdmin webmaster@localhost
 
@@ -20,12 +22,13 @@ cat <<- EOT > /etc/apache2/sites-enabled/000-default.conf
         Require all granted
     </Directory>
 
-    ErrorLog /var/log/apache2/error.log
+    ErrorLog /var/log/httpd/error.log
     LogLevel warn
-    CustomLog /var/log/apache2/access.log combined
+    CustomLog /var/log/httpd/access.log combined
 </VirtualHost>
 EOT
-systemctl restart apache2
-#yum clean
+echo 'IncludeOptional sites-enabled/*.conf' >> /etc/httpd/conf/httpd.conf
+systemctl start httpd.service
+yum clean
 echo '<?php phpinfo();' > "/var/www/html/info.php"
 if [ -e /var/www/html/index.html ] ; then rm /var/www/html/index.html ; fi
