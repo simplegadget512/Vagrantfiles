@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+echo ****************************************
+echo Provisioning $1 on $2
+echo ****************************************
+
 yum update -y --exclude=kernel
 yum install -y httpd
 chkconfig --add httpd
