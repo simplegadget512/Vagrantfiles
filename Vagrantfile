@@ -1,15 +1,16 @@
 # -*- mode: ruby -*-
 # vim: ai ts=4 sts=4 et sw=4 nu ft=ruby
 
-VM_HOSTNAME     = "mesh-dev.vm"
+VM_HOSTNAME     = "ubuntu.vm"
 
 VM_BOX          = "bento/ubuntu-16.04-i386"
 VM_OS           = "ubuntu"
+VM_DB           = "mariadb"
 
 # --==* You shouldn't need to adjust these much *==--
 
 VM_NAME         = VM_HOSTNAME
-VM_IP           = "192.168.30.6"
+VM_IP           = "192.168.30.4"
 VM_MEMORY       = "1024"
 
 # --==* Touch nothing below this line *==--
@@ -26,6 +27,6 @@ Vagrant.configure("2") do |config|
         vb.memory = VM_MEMORY
     end
 
-    config.vm.provision :shell, path: "bin/#{VM_OS}.sh", :args=>[VM_HOSTNAME, VM_OS]
+    config.vm.provision :shell, path: "bin/#{VM_OS}.sh", :args=>[VM_HOSTNAME, VM_OS, VM_DB]
 
 end
