@@ -5,13 +5,14 @@ VM_HOSTNAME     = "ubuntu.vm"
 
 VM_BOX          = "bento/ubuntu-16.04-i386"
 VM_OS           = "ubuntu"
-VM_DB           = "mariadb"
+VM_DB           = "mysql"
 
 # --==* You shouldn't need to adjust these much *==--
 
 VM_NAME         = VM_HOSTNAME
 VM_IP           = "192.168.30.4"
 VM_MEMORY       = "1024"
+VM_DB_PASSWORD  = "vagrant"
 
 # --==* Touch nothing below this line *==--
 
@@ -27,6 +28,6 @@ Vagrant.configure("2") do |config|
         vb.memory = VM_MEMORY
     end
 
-    config.vm.provision :shell, path: "bin/#{VM_OS}.sh", :args=>[VM_HOSTNAME, VM_OS, VM_DB]
+    config.vm.provision :shell, path: "bin/#{VM_OS}.sh", :args=>[VM_HOSTNAME, VM_OS, VM_DB, VM_DB_PASSWORD]
 
 end
