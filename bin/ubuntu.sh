@@ -10,6 +10,11 @@ apt-get update -y
 apt-get upgrade -y
 apt-get install -y apache2
 a2enmod rewrite ssl
+
+echo "${stars// /*}"
+echo Installing MySQL
+echo "${stars// /*}"
+
 debconf-set-selections <<< "$3-server mysql-server/root_password password $4"
 debconf-set-selections <<< "$3-server mysql-server/root_password_again password $4"
 apt-get -y install "$3-client"
